@@ -21,9 +21,7 @@ export default function Home() {
     makeStructure(["III", "II", "I"], "AAA", "B")
   );
 
-  const [plugboard] = useState(
-    makePlugboard("CS DV KU IM LR QY WZ")
-  );
+  const [plugboard] = useState(makePlugboard("CS DV KU IM LR QY WZ"));
 
   const [history, setHistory] = useState<{
     keysPressed: string[];
@@ -112,43 +110,42 @@ export default function Home() {
         </div>
       )}
       <div className="flex flex-row items-start gap-16 h-full w-full justify-center">
-        <div className="w-1/2 flex flex-row h-full justify-end">
-          <div className="flex flex-col justify-end">
-            <div className="flex flex-row font-mono">
+        <div className="flex flex-col h-full items-end gap-6 w-1/2 ">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-row font-mono text-xl font-bold">
               {structure.rotors
                 .slice()
                 .reverse()
                 .map((rotor: Rotor, idx: number) => {
                   return (
                     <div key={idx} className="flex flex-row items-end">
-                      {/* {String.fromCharCode(rotor.offset + 25)} */}
-                      {`${Math.abs(+rotor.offset)}\- `}
+                      {`${String.fromCharCode(Math.abs(rotor.offset) + 65)}`}
                     </div>
                   );
                 })}
             </div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <Plugboard
-              plugboard={plugboard}
-              highlight={letter + translatePlugboard(letter, plugboard)}
-            ></Plugboard>
-            <RotorSet
-              rotorSet={structure}
-              path={structure.innerPath}
-            ></RotorSet>
-            <Plugboard
-              plugboard={plugboard}
-              highlight={
-                translatedLetter !== "#"
-                  ? structure.innerPath?.split(",")[5][3] +
-                    translatePlugboard(
-                      structure.innerPath?.split(",")[5][3],
-                      plugboard
-                    )
-                  : ""
-              }
-            ></Plugboard>
+            <div className="flex flex-row gap-1">
+              <Plugboard
+                plugboard={plugboard}
+                highlight={letter + translatePlugboard(letter, plugboard)}
+              ></Plugboard>
+              <RotorSet
+                rotorSet={structure}
+                path={structure.innerPath}
+              ></RotorSet>
+              <Plugboard
+                plugboard={plugboard}
+                highlight={
+                  translatedLetter !== "#"
+                    ? structure.innerPath?.split(",")[5][3] +
+                      translatePlugboard(
+                        structure.innerPath?.split(",")[5][3],
+                        plugboard
+                      )
+                    : ""
+                }
+              ></Plugboard>
+            </div>
           </div>
         </div>
         <div className="w-1/2 flex flex-col">
