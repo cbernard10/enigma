@@ -68,7 +68,7 @@ const makeRotor = (rotorKey: string, offset: number): Rotor => {
 
   const connections: Connections = wiringStringToConnections(rotor.wiring);
   const reverseConnections: Connections = Object.keys(connections).reduce(
-    (acc, key) => {
+    (acc: Connections, key: string) => {
       acc[connections[key]] = key;
       return acc;
     },

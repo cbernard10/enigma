@@ -24,6 +24,7 @@ const makeStructure = (
     rotors,
     reflector,
     path: "",
+    innerPath: "",
   };
 };
 

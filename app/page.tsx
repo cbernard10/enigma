@@ -69,7 +69,11 @@ export default function Home() {
     return translated;
   };
 
-  function handleKeyDown(e) {
+  interface KeyDownEvent extends KeyboardEvent {
+    keyCode: number;
+  }
+
+  function handleKeyDown(e: KeyDownEvent): void {
     if (e.keyCode < 65 || e.keyCode > 90) return;
     setLastPressed(e.keyCode);
     const letter = String.fromCharCode(e.keyCode);
