@@ -1,7 +1,7 @@
 import { makeRotor, spin, translate } from "./rotors";
 import makeReflector from "./reflectors";
 
-import { Structure, Rotor, Reflector } from "./types";
+import { Structure } from "./types";
 
 const makeStructure = (
   rotorKeys: string[],

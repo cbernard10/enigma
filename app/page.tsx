@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Rotor, Structure } from "@/src/types";
 import RotorSet from "../components/RotorSet";
@@ -8,14 +7,11 @@ import Plugboard from "../components/Plugboard";
 import History from "../components/History";
 import { makePlugboard, translatePlugboard } from "@/src/plugboard";
 
-// import { makeRotor, spin, translate } from "@/src/rotors";
 import {
   makeStructure,
   translateStruct,
   spinRotors,
 } from "@/src/rotorStructure";
-import { translate } from "@/src/rotors";
-// const structure = config
 
 export default function Home() {
   const [lastPressed, setLastPressed] = useState(35);
@@ -25,7 +21,7 @@ export default function Home() {
     makeStructure(["III", "II", "I"], "AAA", "B")
   );
 
-  const [plugboard, setPlugboard] = useState(
+  const [plugboard, _] = useState(
     makePlugboard("CS DV KU IM LR QY WZ")
   );
 

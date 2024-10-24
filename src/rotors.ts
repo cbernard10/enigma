@@ -46,9 +46,6 @@ const wiringStringToConnections = (wiring: string): Connections => {
   return connections;
 };
 
-const rotateString = (str: string, amount: number): string => {
-  return str.slice(amount) + str.slice(0, amount);
-};
 
 const reverseWiringString = (wiring: string): string => {
   const connections = wiringStringToConnections(wiring);
@@ -60,7 +57,7 @@ const reverseWiringString = (wiring: string): string => {
 };
 
 const makeRotor = (rotorKey: string, offset: number): Rotor => {
-  let rotor = rotors[rotorKey as keyof typeof rotors];
+  const rotor = rotors[rotorKey as keyof typeof rotors];
 
   if (!rotor) {
     throw new Error(`Rotor ${rotorKey} not found`);
