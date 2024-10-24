@@ -21,7 +21,7 @@ export default function Home() {
     makeStructure(["III", "II", "I"], "AAA", "B")
   );
 
-  const [plugboard, _] = useState(
+  const [plugboard] = useState(
     makePlugboard("CS DV KU IM LR QY WZ")
   );
 
