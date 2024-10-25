@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Structure } from "@/src/types";
+import { Structure, Rotor } from "@/src/types";
 import RotorSet from "../components/RotorSet";
 import Plugboard from "../components/Plugboard";
 import History from "../components/History";
@@ -39,7 +39,7 @@ export default function Home() {
     makeStructure(selectedRotors, "AAA", "B")
   );
 
-  const [plugboard] = useState(makePlugboard("CS DV KU IM LR QY WZ"));
+  const [plugboard] = useState(makePlugboard("00"));
 
   const [history, setHistory] = useState<{
     keysPressed: string[];
@@ -220,6 +220,18 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="font-mono font-bold text-xl flex flex-row">
+              {structure.rotors
+                .slice()
+                .reverse()
+                .map((rotor: Rotor, idx: number) => {
+                  return (
+                    <div key={idx} className="flex flex-row items-end">
+                      {`${String.fromCharCode(Math.abs(rotor.offset) + 65)}`}
+                    </div>
+                  );
+                })}
+            </div>
             <div className="flex flex-row gap-1">
               <Select
                 onValueChange={(value) => {
@@ -233,7 +245,11 @@ export default function Home() {
                 </SelectTrigger>
                 <SelectContent className="rounded-none">
                   {alphabet.split("").map((letter) => {
-                    return <SelectItem key={letter} value={letter}>{letter}</SelectItem>;
+                    return (
+                      <SelectItem key={letter} value={letter}>
+                        {letter}
+                      </SelectItem>
+                    );
                   })}
                 </SelectContent>
               </Select>
@@ -249,7 +265,11 @@ export default function Home() {
                 </SelectTrigger>
                 <SelectContent className="rounded-none">
                   {alphabet.split("").map((letter) => {
-                    return <SelectItem key={letter} value={letter}>{letter}</SelectItem>;
+                    return (
+                      <SelectItem key={letter} value={letter}>
+                        {letter}
+                      </SelectItem>
+                    );
                   })}
                 </SelectContent>
               </Select>
@@ -261,11 +281,15 @@ export default function Home() {
                 }}
               >
                 <SelectTrigger className="w-[50px] rounded-none border-neutral-500">
-                  <SelectValue placeholder="I" />
+                  <SelectValue placeholder="A" />
                 </SelectTrigger>
                 <SelectContent className="rounded-none w-[50px]">
                   {alphabet.split("").map((letter) => {
-                    return <SelectItem key={letter} className="" value={letter}>{letter}</SelectItem>;
+                    return (
+                      <SelectItem key={letter} className="" value={letter}>
+                        {letter}
+                      </SelectItem>
+                    );
                   })}
                 </SelectContent>
               </Select>

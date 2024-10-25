@@ -6,7 +6,13 @@ const rotateString = (str, amount) => {
   return str.slice(amount) + str.slice(0, amount);
 };
 
-function StringHighlightLetter({ str, letter, alphabetColor, highlightColor }) {
+function StringHighlightLetter({
+  str,
+  letter,
+  alphabetColor,
+  highlightColor,
+  underlineRingSetting,
+}) {
   let highlightNone = false;
 
   if (!letter || letter === "#") {
@@ -20,14 +26,31 @@ function StringHighlightLetter({ str, letter, alphabetColor, highlightColor }) {
   return !highlightNone ? (
     <div className="text-neutral-600 flex flex-col">
       {left.split("").map((char, index) => (
-        <span key={index} style={{ color: alphabetColor }}>
+        <span
+          key={index}
+          style={{
+            color: alphabetColor,
+            backgroundColor:
+              underlineRingSetting && index === 0 ? "#000099" : "",
+          }}
+        >
           {char}
         </span>
       ))}
       {highlightNone ? (
         <span>{letter}</span>
       ) : (
-        <span className="font-bold" style={{ color: highlightColor }}>
+        <span
+          className="font-bold"
+          style={{
+            color:
+              left.length === 0 && underlineRingSetting
+                ? highlightColor
+                : highlightColor,
+            backgroundColor:
+              underlineRingSetting && left.length === 0 ? "#000099" : "",
+          }}
+        >
           {letter}
         </span>
       )}
@@ -76,6 +99,7 @@ function RotorSet({ rotorSet, path }) {
                   letter={splitPaths[index][1]}
                   alphabetColor={"#770000"}
                   highlightColor={"#FF0000"}
+                  underlineRingSetting={true}
                 />
                 <StringHighlightLetter
                   str={rotateString(rotor.wiring, rotor.offset)}
@@ -140,6 +164,7 @@ function RotorSet({ rotorSet, path }) {
                   letter={splitPaths?.[index + 3]?.[1]}
                   alphabetColor={"#770000"}
                   highlightColor={"#FF0000"}
+                  underlineRingSetting={true}
                 />
                 <StringHighlightLetter
                   str={rotateString(rotor.reverseWiring, rotor.offset)}
