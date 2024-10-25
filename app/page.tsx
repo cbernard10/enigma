@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Rotor, Structure } from "@/src/types";
+import { Structure } from "@/src/types";
 import RotorSet from "../components/RotorSet";
 import Plugboard from "../components/Plugboard";
 import History from "../components/History";
@@ -102,7 +102,7 @@ export default function Home() {
 
   useEffect(() => {
     setStructure(makeStructure(selectedRotors, ringSettings, "B"));
-    setHistory((prev) => {
+    setHistory(() => {
       return {
         keysPressed: [],
         cipher: [],
@@ -219,24 +219,12 @@ export default function Home() {
                 </Select>
               </div>
             </div>
-            {/* <div className="flex flex-row font-mono text-xl font-bold">
-              {structure.rotors
-                .slice()
-                .reverse()
-                .map((rotor: Rotor, idx: number) => {
-                  return (
-                    <div key={idx} className="flex flex-row items-end">
-                      {`${String.fromCharCode(Math.abs(rotor.offset) + 65)}`}
-                    </div>
-                  );
-                })}
-            </div> */}
 
             <div className="flex flex-row gap-1">
               <Select
                 onValueChange={(value) => {
                   setRingSettings(
-                    (prev) => `${ringSettings[0]}${ringSettings[1]}${value}`
+                    () => `${ringSettings[0]}${ringSettings[1]}${value}`
                   );
                 }}
               >
@@ -252,7 +240,7 @@ export default function Home() {
               <Select
                 onValueChange={(value) => {
                   setRingSettings(
-                    (prev) => `${ringSettings[0]}${value}${ringSettings[2]}`
+                    () => `${ringSettings[0]}${value}${ringSettings[2]}`
                   );
                 }}
               >
@@ -268,7 +256,7 @@ export default function Home() {
               <Select
                 onValueChange={(value) => {
                   setRingSettings(
-                    (prev) => `${value}${ringSettings[1]}${ringSettings[2]}`
+                    () => `${value}${ringSettings[1]}${ringSettings[2]}`
                   );
                 }}
               >
