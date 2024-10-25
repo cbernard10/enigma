@@ -13,12 +13,30 @@ import {
   spinRotors,
 } from "@/src/rotorStructure";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 export default function Home() {
   const [lastPressed, setLastPressed] = useState(35);
   const [translatedLetter, setTranslatedLetter] = useState("#");
 
+  const [selectedRotors, setSelectedRotors] = useState<string[]>([
+    "III",
+    "II",
+    "I",
+  ]);
+
+  const [ringSettings, setRingSettings] = useState("AAA");
+
   const [structure, setStructure] = useState(
-    makeStructure(["III", "II", "I"], "AAA", "B")
+    makeStructure(selectedRotors, "AAA", "B")
   );
 
   const [plugboard] = useState(makePlugboard("CS DV KU IM LR QY WZ"));
@@ -76,12 +94,24 @@ export default function Home() {
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-
     // Don't forget to clean up
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [structure]);
+
+  useEffect(() => {
+    setStructure(makeStructure(selectedRotors, ringSettings, "B"));
+    setHistory((prev) => {
+      return {
+        keysPressed: [],
+        cipher: [],
+        path: [],
+      };
+    });
+    setTranslatedLetter("#");
+    setLastPressed(35);
+  }, [selectedRotors, ringSettings]);
 
   return (
     <div className="flex flex-col items-center justify-items-center min-h-screen pt-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -112,7 +142,84 @@ export default function Home() {
       <div className="flex flex-row items-start gap-16 h-full w-full justify-center">
         <div className="flex flex-col h-full items-end gap-6 w-1/2 ">
           <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-row font-mono text-xl font-bold">
+            <div className="flex flex-row font-mono">
+              <div className="flex flex-col items-center">
+                <span>L rotor</span>
+                <Select
+                  onValueChange={(value) => {
+                    setSelectedRotors((prev) => {
+                      prev[2] = value;
+                      return [...prev];
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[100px] rounded-none border-neutral-500">
+                    <SelectValue placeholder="I" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-none">
+                    <SelectItem value="I">I</SelectItem>
+                    <SelectItem value="II">II</SelectItem>
+                    <SelectItem value="III">III</SelectItem>
+                    <SelectItem value="IV">IV</SelectItem>
+                    <SelectItem value="V">V</SelectItem>
+                    <SelectItem value="VI">VI</SelectItem>
+                    <SelectItem value="VII">VII</SelectItem>
+                    <SelectItem value="VIII">VIII</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col items-center">
+                <span>M rotor</span>
+                <Select
+                  onValueChange={(value) => {
+                    setSelectedRotors((prev) => {
+                      prev[1] = value;
+                      return [...prev];
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[100px] rounded-none border-neutral-500">
+                    <SelectValue placeholder="II" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-none">
+                    <SelectItem value="I">I</SelectItem>
+                    <SelectItem value="II">II</SelectItem>
+                    <SelectItem value="III">III</SelectItem>
+                    <SelectItem value="IV">IV</SelectItem>
+                    <SelectItem value="V">V</SelectItem>
+                    <SelectItem value="VI">VI</SelectItem>
+                    <SelectItem value="VII">VII</SelectItem>
+                    <SelectItem value="VIII">VIII</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col items-center">
+                <span>R rotor</span>
+                <Select
+                  onValueChange={(value) => {
+                    setSelectedRotors((prev) => {
+                      prev[0] = value;
+                      return [...prev];
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[100px] rounded-none border-neutral-500">
+                    <SelectValue placeholder="III" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-none">
+                    <SelectItem value="I">I</SelectItem>
+                    <SelectItem value="II">II</SelectItem>
+                    <SelectItem value="III">III</SelectItem>
+                    <SelectItem value="IV">IV</SelectItem>
+                    <SelectItem value="V">V</SelectItem>
+                    <SelectItem value="VI">VI</SelectItem>
+                    <SelectItem value="VII">VII</SelectItem>
+                    <SelectItem value="VIII">VIII</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            {/* <div className="flex flex-row font-mono text-xl font-bold">
               {structure.rotors
                 .slice()
                 .reverse()
@@ -123,7 +230,59 @@ export default function Home() {
                     </div>
                   );
                 })}
+            </div> */}
+
+            <div className="flex flex-row gap-1">
+              <Select
+                onValueChange={(value) => {
+                  setRingSettings(
+                    (prev) => `${ringSettings[0]}${ringSettings[1]}${value}`
+                  );
+                }}
+              >
+                <SelectTrigger className="w-[50px] rounded-none border-neutral-500">
+                  <SelectValue placeholder="A" />
+                </SelectTrigger>
+                <SelectContent className="rounded-none">
+                  {alphabet.split("").map((letter) => {
+                    return <SelectItem key={letter} value={letter}>{letter}</SelectItem>;
+                  })}
+                </SelectContent>
+              </Select>
+              <Select
+                onValueChange={(value) => {
+                  setRingSettings(
+                    (prev) => `${ringSettings[0]}${value}${ringSettings[2]}`
+                  );
+                }}
+              >
+                <SelectTrigger className="w-[50px] rounded-none border-neutral-500">
+                  <SelectValue placeholder="A" />
+                </SelectTrigger>
+                <SelectContent className="rounded-none">
+                  {alphabet.split("").map((letter) => {
+                    return <SelectItem key={letter} value={letter}>{letter}</SelectItem>;
+                  })}
+                </SelectContent>
+              </Select>
+              <Select
+                onValueChange={(value) => {
+                  setRingSettings(
+                    (prev) => `${value}${ringSettings[1]}${ringSettings[2]}`
+                  );
+                }}
+              >
+                <SelectTrigger className="w-[50px] rounded-none border-neutral-500">
+                  <SelectValue placeholder="I" />
+                </SelectTrigger>
+                <SelectContent className="rounded-none w-[50px]">
+                  {alphabet.split("").map((letter) => {
+                    return <SelectItem key={letter} className="" value={letter}>{letter}</SelectItem>;
+                  })}
+                </SelectContent>
+              </Select>
             </div>
+
             <div className="flex flex-row gap-1">
               <Plugboard
                 plugboard={plugboard}

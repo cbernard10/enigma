@@ -6,7 +6,7 @@ const rotateString = (str, amount) => {
   return str.slice(amount) + str.slice(0, amount);
 };
 
-function StringHighlightLetter({ str, letter }) {
+function StringHighlightLetter({ str, letter, alphabetColor, highlightColor }) {
   let highlightNone = false;
 
   if (!letter || letter === "#") {
@@ -18,21 +18,27 @@ function StringHighlightLetter({ str, letter }) {
   const right = str.slice(letterIdx + 1);
 
   return !highlightNone ? (
-    <div className="text-neutral-600 text-sm flex flex-col">
+    <div className="text-neutral-600 flex flex-col">
       {left.split("").map((char, index) => (
-        <span key={index}>{char}</span>
+        <span key={index} style={{ color: alphabetColor }}>
+          {char}
+        </span>
       ))}
       {highlightNone ? (
-         <span>{letter}</span>
+        <span>{letter}</span>
       ) : (
-        <span className="text-green-500 font-bold">{letter}</span>
+        <span className="font-bold" style={{ color: highlightColor }}>
+          {letter}
+        </span>
       )}
       {right.split("").map((char, index) => (
-        <span key={index}>{char}</span>
+        <span key={index} style={{ color: alphabetColor }}>
+          {char}
+        </span>
       ))}
     </div>
   ) : (
-    <div className="text-neutral-600 text-sm flex flex-col">
+    <div className="text-neutral-600 flex flex-col">
       {str.split("").map((char, index) => (
         <span key={index}>{char}</span>
       ))}
@@ -49,7 +55,7 @@ function RotorSet({ rotorSet, path }) {
   }
 
   return (
-    <div className="flex flex-row font-mono justify-end text-neutral-600 gap-2 text-sm">
+    <div className="flex flex-row font-mono justify-end text-neutral-600 gap-2">
       {/* FORWARD */}
       {rotorSet.rotors.map((rotor, index) => {
         return (
@@ -63,18 +69,24 @@ function RotorSet({ rotorSet, path }) {
                 <StringHighlightLetter
                   str={alphabet}
                   letter={splitPaths[index][0]}
+                  highlightColor={"#cccccc"}
                 />
                 <StringHighlightLetter
                   str={rotateString(alphabet, rotor.offset)}
                   letter={splitPaths[index][1]}
+                  alphabetColor={"#770000"}
+                  highlightColor={"#FF0000"}
                 />
                 <StringHighlightLetter
                   str={rotateString(rotor.wiring, rotor.offset)}
                   letter={splitPaths[index][2]}
+                  alphabetColor={"#770000"}
+                  highlightColor={"#FF0000"}
                 />
                 <StringHighlightLetter
                   str={rotateString(alphabet, 0 * rotor.offset)}
                   letter={splitPaths[index][3]}
+                  highlightColor={"#cccccc"}
                 />
               </div>
             </div>
@@ -90,10 +102,17 @@ function RotorSet({ rotorSet, path }) {
         <div className="flex flex-row border border-blue-950 p-2">
           {/* <span>{rotateString(alphabet, 0)}</span>
           <span>{rotorSet.reflector.wiring}</span> */}
-          <StringHighlightLetter str={alphabet} letter={splitPaths[2]?.[3]} />
+          <StringHighlightLetter
+            str={alphabet}
+            letter={splitPaths[2]?.[3]}
+            alphabetColor={"#770077"}
+            highlightColor={"#ff00ff"}
+          />
           <StringHighlightLetter
             str={rotorSet.reflector.wiring}
             letter={splitPaths[3]?.[0]}
+            alphabetColor={"#770077"}
+            highlightColor={"#ff00ff"}
           />
         </div>
       </div>
@@ -111,23 +130,27 @@ function RotorSet({ rotorSet, path }) {
             <div className="text-blue-400 text-end w-fit">{rotor.name}</div>
             <div className="flex flex-col items-center">
               <div className="border border-blue-950 flex flex-row p-2">
-                {/* <span>{alphabet}</span> */}
-                {/* <span>{rotateString(rotor.reverseWiring, rotor.offset)}</span> */}
                 <StringHighlightLetter
                   str={alphabet}
                   letter={splitPaths?.[index + 3]?.[0]}
+                  highlightColor={"#cccccc"}
                 />
                 <StringHighlightLetter
                   str={rotateString(alphabet, rotor.offset)}
                   letter={splitPaths?.[index + 3]?.[1]}
+                  alphabetColor={"#770000"}
+                  highlightColor={"#FF0000"}
                 />
                 <StringHighlightLetter
                   str={rotateString(rotor.reverseWiring, rotor.offset)}
                   letter={splitPaths?.[index + 3]?.[2]}
+                  alphabetColor={"#770000"}
+                  highlightColor={"#FF0000"}
                 />
                 <StringHighlightLetter
                   str={alphabet}
                   letter={splitPaths?.[index + 3]?.[3]}
+                  highlightColor={"#cccccc"}
                 />
               </div>
             </div>
